@@ -39,12 +39,6 @@
         .ar-button:hover {
             background-color: #45a049;
         }
-        model-viewer {
-            width: 100%;
-            max-width: 500px;
-            height: 400px;
-            margin: 0 auto;
-        }
         h1 {
             color: #333;
             margin-bottom: 15px;
@@ -53,11 +47,6 @@
             color: #666;
             margin-bottom: 20px;
         }
-        #ar-viewer {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-        }
     </style>
 </head>
 <body>
@@ -65,32 +54,52 @@
         <div class="section">
             <h1>Explore Cutting-Edge Design</h1>
             <p>Discover an innovative 3D model that pushes the boundaries of modern design. Immerse yourself in its intricate details and unique form by viewing it in augmented reality.</p>
-            <button class="ar-button" onclick="document.getElementById('model-viewer-ar').showModal()">Open in AR</button>
+            <model-viewer 
+                src="./UntitledObject.glb" 
+                ios-src="./UntitledObject.usdz"
+                ar 
+                ar-modes="webxr scene-viewer quick-look" 
+                camera-controls 
+                auto-rotate
+                class="hidden-model-viewer"
+            >
+                <button slot="ar-button" class="ar-button">Open in AR</button>
+            </model-viewer>
         </div>
 
         <div class="section">
             <h1>Technological Marvel</h1>
             <p>Experience a groundbreaking 3D model that represents the pinnacle of technological innovation. Use augmented reality to interact with this revolutionary design from every angle.</p>
-            <button class="ar-button" onclick="document.getElementById('model-viewer-ar').showModal()">Open in AR</button>
+            <model-viewer 
+                src="./UntitledObject.glb" 
+                ios-src="./UntitledObject.usdz"
+                ar 
+                ar-modes="webxr scene-viewer quick-look" 
+                camera-controls 
+                auto-rotate
+                class="hidden-model-viewer"
+            >
+                <button slot="ar-button" class="ar-button">Open in AR</button>
+            </model-viewer>
         </div>
 
-        <dialog id="model-viewer-ar" style="border: none; background: rgba(0,0,0,0.5); width: 100%; height: 100%; max-width: none; max-height: none;">
-            <div style="width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; position: relative;">
-                <button onclick="this.closest('dialog').close()" style="position: absolute; top: 20px; right: 20px; background: white; border: none; padding: 10px; border-radius: 5px;">Close</button>
-                <model-viewer 
-                    id="ar-model"
-                    src="./UntitledObject.glb" 
-                    ios-src="./UntitledObject.usdz"
-                    ar 
-                    ar-modes="webxr scene-viewer quick-look" 
-                    camera-controls 
-                    auto-rotate
-                    style="width: 90%; height: 80vh;"
-                >
-                    <button slot="ar-button" id="ar-button">Open in AR</button>
-                </model-viewer>
-            </div>
-        </dialog>
+        <style>
+            .hidden-model-viewer {
+                display: none;
+            }
+        </style>
+
+        <script>
+            // Automatically trigger AR mode when button is clicked
+            document.querySelectorAll('.ar-button').forEach(button => {
+                button.addEventListener('click', () => {
+                    const modelViewer = button.closest('.hidden-model-viewer');
+                    if (modelViewer) {
+                        modelViewer.activateAR();
+                    }
+                });
+            });
+        </script>
     </div>
 </body>
 </html>
