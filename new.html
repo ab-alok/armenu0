@@ -36,7 +36,13 @@
         }
 
         model-viewer {
-            display: none; /* Hides the model viewer preview */
+            width: 100%;
+            height: 400px;
+            margin: 0 auto 20px;
+        }
+
+        model-viewer::part(model) {
+            display: none; /* Hides the model rendering but keeps the AR button visible */
         }
 
         #ar-button {
@@ -70,6 +76,8 @@
             alt="A 3D model for AR interaction"
             ar 
             ar-modes="webxr scene-viewer quick-look"
+            camera-controls
+            auto-rotate
         >
             <button slot="ar-button" id="ar-button" aria-label="Open model in AR">Open in AR</button>
         </model-viewer>
