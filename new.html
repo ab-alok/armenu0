@@ -36,8 +36,8 @@
     <button id="arButton">View in AR</button>
     <model-viewer
       id="arViewer"
-      src="./model.glb" <!-- Default for Android -->
-      ios-src="./model.usdz" <!-- For iOS -->
+      src="./UntitledObject.glb" <!-- For Android -->
+      ios-src="./UntitledObject.usdz" <!-- For iOS -->
       alt="3D model in AR"
       ar
       ar-modes="scene-viewer quick-look" <!-- Supports both modes -->
@@ -69,13 +69,13 @@
       const platform = getDevicePlatform();
 
       if (platform === "android") {
-        // Open Scene Viewer for Android with .glb
+        // Open Scene Viewer for Android with UntitledObject.glb
         const sceneViewerUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(
-          "./model.glb"
+          "./UntitledObject.glb"
         )}&mode=ar_only#Intent;scheme=https;package=com.google.ar.core;end;`;
         window.location.href = sceneViewerUrl;
       } else if (platform === "ios") {
-        // Open Quick Look for iOS with .usdz
+        // Open Quick Look for iOS with UntitledObject.usdz
         arViewer.style.display = "block";
         arViewer.activateAR();
       } else {
