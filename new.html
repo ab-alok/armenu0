@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Viewer</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>View 3D Model in AR</h1>
+    <p>Tap the button below to view the 3D model in augmented reality.</p>
+    <button id="arButton">View in AR</button>
+    <model-viewer
+      id="arViewer"
+      src="./model.glb" <!-- Default for Android -->
+      ios-src="./model.usdz" <!-- For iOS -->
+      alt="3D model in AR"
+      ar
+      ar-modes="scene-viewer quick-look" <!-- Supports both modes -->
+      camera-controls
+      auto-rotate
+      style="display: none; width: 100%; height: 100%;"
+    ></model-viewer>
+  </div>
+
+  <script>
+    // Function to detect device platform
+    function getDevicePlatform() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      if (/android/i.test(userAgent)) {
+        return "android";
+      } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return "ios";
+      } else {
+        return "other";
+      }
+    }
+
+    // AR Viewer Logic
+    const arButton = document.getElementById('arButton');
+    const arViewer = document.getElementById('arViewer');
+
+    arButton.addEventListener('click', () => {
+      const platform = getDevicePlatform();
+
+      if (platform === "android") {
+        // Open Scene Viewer for Android with .glb
+        const sceneViewerUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(
+          "./model.glb"
+        )}&mode=ar_only#Intent;scheme=https;package=com.google.ar.core;end;`;
+        window.location.href = sceneViewerUrl;
+      } else if (platform === "ios") {
+        // Open Quick Look for iOS with .usdz
+        arViewer.style.display = "block";
+        arViewer.activateAR();
+      } else {
+        alert("AR is not supported on this device.");
+      }
+    });
+  </script>
+</body>
+</html>
