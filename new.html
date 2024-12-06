@@ -36,11 +36,11 @@
     <button id="arButton">View in AR</button>
     <model-viewer
       id="arViewer"
-      src="./UntitledObject.glb" <!-- For Android -->
-      ios-src="./UntitledObject.usdz" <!-- For iOS -->
+      src="./UntitledObject.glb"
+      ios-src="./UntitledObject.usdz"
       alt="3D model in AR"
       ar
-      ar-modes="scene-viewer quick-look" <!-- Supports both modes -->
+      ar-modes="scene-viewer quick-look"
       camera-controls
       auto-rotate
       style="display: none; width: 100%; height: 100%;"
@@ -48,7 +48,7 @@
   </div>
 
   <script>
-    // Function to detect device platform
+    // Function to detect the device platform
     function getDevicePlatform() {
       const userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
@@ -61,7 +61,7 @@
       }
     }
 
-    // AR Viewer Logic
+    // Handle button click for AR
     const arButton = document.getElementById('arButton');
     const arViewer = document.getElementById('arViewer');
 
@@ -69,13 +69,13 @@
       const platform = getDevicePlatform();
 
       if (platform === "android") {
-        // Open Scene Viewer for Android with UntitledObject.glb
+        // Android: Open Scene Viewer with .glb
         const sceneViewerUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(
-          "./UntitledObject.glb"
+          location.origin + '/UntitledObject.glb'
         )}&mode=ar_only#Intent;scheme=https;package=com.google.ar.core;end;`;
         window.location.href = sceneViewerUrl;
       } else if (platform === "ios") {
-        // Open Quick Look for iOS with UntitledObject.usdz
+        // iOS: Open Quick Look with .usdz
         arViewer.style.display = "block";
         arViewer.activateAR();
       } else {
