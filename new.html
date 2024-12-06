@@ -3,27 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open AR Viewer</title>
+    <title>View in AR</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
             text-align: center;
             background-color: #f5f5f5;
+            padding: 20px;
         }
         h1 {
             font-size: 1.5rem;
             color: #333;
         }
+        model-viewer {
+            width: 100%;
+            height: 400px;
+        }
         .cta-button {
             display: inline-block;
-            padding: 10px 20px;
             margin-top: 15px;
+            padding: 10px 20px;
             background-color: #007bff;
             color: #fff;
             text-decoration: none;
@@ -38,6 +38,15 @@
 </head>
 <body>
     <h1>Experience the Model in AR</h1>
-    <a href="./UntitledObject.usdz#apple" rel="ar" class="cta-button">Open AR</a>
+    <model-viewer
+        id="arViewer"
+        ios-src="./UntitledObject.usdz"
+        alt="3D model in AR"
+        ar
+        ar-modes="quick-look" <!-- Enables iOS AR Quick Look -->
+        style="width: 100%; height: 400px;"
+        camera-controls>
+    </model-viewer>
+    <a href="./UntitledObject.usdz" rel="ar" class="cta-button">Open AR</a>
 </body>
 </html>
