@@ -28,7 +28,7 @@
       background-color: #0056b3;
     }
     #arViewer {
-      display: none; /* Ensure model-viewer stays hidden */
+      display: none; /* Keep the model-viewer hidden initially */
     }
   </style>
 </head>
@@ -39,14 +39,12 @@
     <button id="arButton">View in AR</button>
     <model-viewer
       id="arViewer"
-      src="./UntitledObject.glb" <!-- For Android -->
-      ios-src="./UntitledObject.usdz" <!-- For iOS -->
+      ios-src="./UntitledObject.usdz" <!-- Path to the .usdz file -->
       alt="3D model in AR"
       ar
-      ar-modes="scene-viewer quick-look"
-      camera-controls
-      auto-rotate
-      style="display: none; width: 100%; height: 400px;">
+      ar-modes="quick-look" <!-- Enable Quick Look AR -->
+      style="display: none; width: 100%; height: 100%;"
+      camera-controls>
     </model-viewer>
   </div>
 
@@ -54,39 +52,13 @@
     const arButton = document.getElementById('arButton');
     const arViewer = document.getElementById('arViewer');
 
-    // Detect platform (Android or iOS)
-    function getDevicePlatform() {
-      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      if (/android/i.test(userAgent)) {
-        return "android";
-      } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        return "ios";
-      } else {
-        return "other";
-      }
-    }
-
-    // Handle button click
     arButton.addEventListener('click', () => {
-      const platform = getDevicePlatform();
-
-      if (platform === "android") {
-        // Android: Open Scene Viewer with .glb file
-        const sceneViewerUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(
-          location.origin + '/UntitledObject.glb'
-        )}&mode=ar_only#Intent;scheme=https;package=com.google.ar.core;end;`;
-        window.location.href = sceneViewerUrl;
-      } else if (platform === "ios") {
-        // iOS: Open Quick Look with .usdz file
-        arViewer.setAttribute('ios-src', './UntitledObject.usdz');
-        arViewer.style.display = 'block'; // Temporarily show model-viewer
-        arViewer.activateAR();
-        setTimeout(() => {
-          arViewer.style.display = 'none'; // Hide again after activation
-        }, 1000);
-      } else {
-        alert("AR is not supported on this device.");
-      }
+      // Display the AR Viewer and activate Quick Look
+      arViewer.style.display = 'block'; // Temporarily show the model-viewer
+      arViewer.activateAR(); // Trigger Quick Look
+      setTimeout(() => {
+        arViewer.style.display = 'none'; // Hide the model-viewer after Quick Look opens
+      }, 1000); // Timeout to ensure user experience
     });
   </script>
 </body>
