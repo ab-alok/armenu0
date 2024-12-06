@@ -1,52 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>View in AR</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f5f5f5;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 1.5rem;
-            color: #333;
-        }
-        model-viewer {
-            width: 100%;
-            height: 400px;
-        }
-        .cta-button {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: #fff;
-            text-decoration: none;
-            font-size: 1rem;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .cta-button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Viewer</title>
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-    <h1>Experience the Model in AR</h1>
+  <div class="container">
+    <h1>View</h1>
+    <p>Tap the button below to view the 3D model in augmented reality.</p>
+    <button id="arButton">View in AR</button>
     <model-viewer
-        id="arViewer"
-        ios-src="./UntitledObject.usdz"
-        alt="3D model in AR"
-        ar
-        ar-modes="quick-look" <!-- Enables iOS AR Quick Look -->
-        "
-    >
-    </model-viewer>
-    <a href="./UntitledObject.usdz" rel="ar" class="cta-button">Open AR</a>
+      id="arViewer"
+      ios-src="./UntitledObject.usdz"
+      alt="3D model in AR"
+      ar
+      ar-modes="quick-look" <!-- iOS AR Quick Look -->
+      style="display: none; width: 100%; height: 100%;"
+      camera-controls
+    ></model-viewer>
+  </div>
+
+  <script>
+    const arButton = document.getElementById('arButton');
+    
+
+    arButton.addEventListener('click', () => {
+     
+      // Quick Look AR on iOS will automatically open when this is clicked
+      arViewer.activateAR();
+    });
+  </script>
 </body>
 </html>
