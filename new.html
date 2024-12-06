@@ -54,11 +54,7 @@
 
     arButton.addEventListener('click', () => {
       // Display the AR Viewer and activate Quick Look
-      arViewer.style.display = 'block'; // Temporarily show the model-viewer
       arViewer.activateAR(); // Trigger Quick Look
-      setTimeout(() => {
-        arViewer.style.display = 'none'; // Hide the model-viewer after Quick Look opens
-      }, 1000); // Timeout to ensure user experience
     });
   </script>
 </body>
