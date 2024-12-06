@@ -3,56 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR Viewer</title>
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <title>View in AR</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
       text-align: center;
-    }
-    .container {
       padding: 20px;
     }
-    button {
+    h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 20px;
+    }
+    .cta-button {
+      display: inline-block;
+      background-color: #007AFF;
+      color: white;
+      text-decoration: none;
       padding: 10px 20px;
       font-size: 16px;
-      background-color: #007bff;
-      color: white;
-      border: none;
       border-radius: 5px;
-      cursor: pointer;
     }
-    button:hover {
-      background-color: #0056b3;
-    }
-    #arViewer {
-      display: none; /* Keep the model-viewer hidden initially */
+    .cta-button:hover {
+      background-color: #005BB5;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>View 3D Model in AR</h1>
-    <p>Tap the button below to view the 3D model in augmented reality.</p>
-    <button id="arButton">View in AR</button>
-    <model-viewer
-      id="arViewer"
-      ios-src="./UntitledObject.usdz" <!-- Path to the .usdz file -->
-      
-      camera-controls>
-    </model-viewer>
-  </div>
-
-  <script>
-    const arButton = document.getElementById('arButton');
-    const arViewer = document.getElementById('arViewer');
-
-    arButton.addEventListener('click', () => {
-      // Display the AR Viewer and activate Quick Look
-      arViewer.activateAR(); // Trigger Quick Look
-    });
-  </script>
+  <h1>Explore in Augmented Reality</h1>
+  <p>Click the button below to view the 3D object in AR on your iOS device.</p>
+  <a class="cta-button" href="UntitledObject.usdz" rel="ar" download>View in AR</a>
 </body>
 </html>
