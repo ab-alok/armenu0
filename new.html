@@ -5,35 +5,85 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AR Viewer</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    .container {
+      padding: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #arViewer {
+      display: none; /* Ensure model-viewer stays hidden */
+    }
+  </style>
 </head>
 <body>
-  <h1>View 3D Model in AR</h1>
-  <button id="arButton">View in AR</button>
-  <model-viewer
-    id="arViewer"
-    src="./UntitledObject.glb" <!-- For Android -->
-    ios-src="./UntitledObject.usdz" <!-- For iOS -->
-    alt="3D model in AR"
-    ar
-    ar-modes="scene-viewer quick-look"
-    camera-controls
-    auto-rotate
-    style="display: none;"></model-viewer>
+  <div class="container">
+    <h1>View 3D Model in AR</h1>
+    <p>Tap the button below to view the 3D model in augmented reality.</p>
+    <button id="arButton">View in AR</button>
+    <model-viewer
+      id="arViewer"
+      src="./UntitledObject.glb" <!-- For Android -->
+      ios-src="./UntitledObject.usdz" <!-- For iOS -->
+      alt="3D model in AR"
+      ar
+      ar-modes="scene-viewer quick-look"
+      camera-controls
+      auto-rotate
+      style="display: none; width: 100%; height: 400px;">
+    </model-viewer>
+  </div>
 
   <script>
     const arButton = document.getElementById('arButton');
     const arViewer = document.getElementById('arViewer');
 
+    // Detect platform (Android or iOS)
+    function getDevicePlatform() {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+      if (/android/i.test(userAgent)) {
+        return "android";
+      } else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        return "ios";
+      } else {
+        return "other";
+      }
+    }
+
+    // Handle button click
     arButton.addEventListener('click', () => {
-      if (navigator.userAgent.includes("Android")) {
-        // Android: Open Scene Viewer
+      const platform = getDevicePlatform();
+
+      if (platform === "android") {
+        // Android: Open Scene Viewer with .glb file
         const sceneViewerUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(
           location.origin + '/UntitledObject.glb'
         )}&mode=ar_only#Intent;scheme=https;package=com.google.ar.core;end;`;
         window.location.href = sceneViewerUrl;
-      } else if (navigator.userAgent.includes("iPhone") || navigator.userAgent.includes("iPad")) {
-        // iOS: Activate Quick Look
+      } else if (platform === "ios") {
+        // iOS: Open Quick Look with .usdz file
+        arViewer.setAttribute('ios-src', './UntitledObject.usdz');
+        arViewer.style.display = 'block'; // Temporarily show model-viewer
         arViewer.activateAR();
+        setTimeout(() => {
+          arViewer.style.display = 'none'; // Hide again after activation
+        }, 1000);
       } else {
         alert("AR is not supported on this device.");
       }
