@@ -1,70 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Model AR Viewer</title>
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
-            text-align: center;
-        }
-        .container {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            max-width: 500px;
-            width: 90%;
-        }
-        model-viewer {
-            width: 100%;
-            height: 0; /* Collapse the preview height */
-            overflow: hidden; /* Hide overflow content */
-            position: absolute; /* Keep the element in the DOM but off-screen */
-            visibility: hidden; /* Hide the element visually */
-        }
-        #ar-button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 20px 0;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        #ar-button:hover {
-            background-color: #45a049;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <title>Model Viewer Example</title>
+  <style>
+    /* Hide model-viewer by default */
+    #model-container {
+      display: none;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>3D Model AR Viewer</h1>
-        <p>Experience our 3D model in Augmented Reality. Click the button below to start your AR experience!</p>
-        <button slot="ar-button" id="ar-button">Open in AR</button>
-        <model-viewer 
-            src="./UntitledObject.glb" 
-            ios-src="./UntitledObject.usdz"
-            ar 
-            ar-modes="webxr scene-viewer quick-look" 
-            camera-controls 
-            auto-rotate
-        >
-           
-        </model-viewer>
-    </div>
+  <!-- Button to trigger model-viewer -->
+  <button id="show-model-btn">View 3D Model</button>
+
+  <!-- Container for model-viewer -->
+  <div id="model-container">
+    <model-viewer id="model-viewer" 
+                  alt="A 3D model"
+                  ar 
+                  auto-rotate 
+                  camera-controls 
+                  style="width: 100%; height: 400px;">
+    </model-viewer>
+  </div>
+
+  <script>
+    // Function to detect iOS
+    function isIOS() {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    }
+
+    // Get references to elements
+    const button = document.getElementById('show-model-btn');
+    const modelContainer = document.getElementById('model-container');
+    const modelViewer = document.getElementById('model-viewer');
+
+    // Add click event listener to the button
+    button.addEventListener('click', () => {
+      // Determine the appropriate file format
+      const modelSrc = isIOS() ? './UntitledObject.usdz' : './UntitledObject.glb';
+
+      // Set the src attribute for the model-viewer
+      modelViewer.setAttribute('src', modelSrc);
+
+      // Display the model-viewer container
+      modelContainer.style.display = 'block';
+    });
+  </script>
 </body>
 </html>
